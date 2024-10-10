@@ -22,16 +22,15 @@ public class DemoService {
         return demoAccessInterface.save(book);
     }
     public void updateTitle(Integer id,String title){
-        try{
-            DemoEntity obj=demoAccessInterface.findById(id);
-            obj.setTitle(title);
-            demoAccessInterface.save(obj);
+        Optional<DemoEntity> obj=demoAccessInterface.findById(id);
+        if (obj.isPresent()){
+            DemoEntity obj1=obj.get();
+            obj1.setTitle(title);
+            demoAccessInterface.save(obj1);
         }
-        catch (Exception e){
-            System.out.println(e.getLocalizedMessage());
-
+        else{
+            System.out.println("No object found with that ID");
         }
-
     }
     public void deleteBook( Integer id){
         demoAccessInterface.deleteById(id);
